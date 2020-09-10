@@ -2,6 +2,7 @@
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 const bodyParser = require('body-parser');
+require('newrelic');
 
 // Config
 const { routes } = require('./config.json');
@@ -18,7 +19,11 @@ for (route of routes) {
         proxy({
             target: route.address,
             pathRewrite: (path, req) => {
-                return path.split('/').slice(2).join('/'); // Could use replace, but take care of the leading '/'
+                if (req.query.id) {
+                  return `?id=${req.query.id}`
+                } else {
+                  return path.split('/').slice(2).join('/'); // Could use replace, but take care of the leading '/'
+                }
             }
         })
     );
