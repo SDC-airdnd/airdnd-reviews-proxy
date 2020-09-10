@@ -1,21 +1,7 @@
 
 {
-  "routes": [
-    {
-      "route": "/listings",
-      "address": "http://sdclb-1592457807.us-west-2.elb.amazonaws.com/listings"
-    },
-    {
-      "route": "/room",
-      "address": "http://sdcapploadbalancer-1123295312.us-west-1.elb.amazonaws.com/room"
-    },
-    {
-      "route": "/booking",
-      "address": "http://sdcapploadbalancer-1123295312.us-west-1.elb.amazonaws.com/booking"
-    },
-    {
-      "route": "/reviews",
-      "address": "http://ec2-lb-airdnd-reviews-84353792.us-west-1.elb.amazonaws.com/reviews"
-    }
-  ]
+  "LISTINGS": "http://sdclb-1592457807.us-west-2.elb.amazonaws.com/listings",
+  "ROOM": "http://sdcapploadbalancer-1123295312.us-west-1.elb.amazonaws.com/room",
+  "BOOKING": "http://sdcapploadbalancer-1123295312.us-west-1.elb.amazonaws.com/booking",
+  "REVIEWS": "http://ec2-lb-airdnd-reviews-84353792.us-west-1.elb.amazonaws.com/reviews"  
 }
