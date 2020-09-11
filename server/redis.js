@@ -9,8 +9,8 @@ const cacheMiddleware = (req, res, next) => {
   redisClient.get(key, (err, data) => {
     if (err) throw err;
     if (data !== null) {
-      console.log(key);
-      res.status(200).send(data);
+      const jsoned = JSON.parse(data);
+      res.status(200).send(jsoned);
     } else {
       next();
     }

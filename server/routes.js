@@ -15,7 +15,6 @@ router.get('/reviews/:id', cacheMiddleware, (req, res) => {
 })
 
 router.get('/listings/:id', cacheMiddleware, (req, res) => {
-  console.log('hello');
   axios.get(`${LISTINGS}/${req.params.id}`)
     .then((result) => {
       redisClient.setex(req.url, 3600, JSON.stringify(result.data));
