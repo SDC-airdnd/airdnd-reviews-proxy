@@ -6,34 +6,34 @@ const {redisClient, cacheMiddleware} = require('./redis');
 
 const {REVIEWS, LISTINGS, ROOM, BOOKING} = routes;
 
-router.get('/reviews/:id', cacheMiddleware, (req, res) => {
+router.get('/reviews/:id', (req, res, next) => { cacheMiddleware(req, res, next,'reviews') }, (req, res) => {
   axios.get(`${REVIEWS}/${req.params.id}`)
     .then((result) => {
-      redisClient.setex(req.url, 3600, JSON.stringify(result.data));
+      redisClient.hmset('reviews', req.params.id, JSON.stringify(result.data));
       res.status(200).send(result.data);
     })
 })
 
-router.get('/listings/:id', cacheMiddleware, (req, res) => {
+router.get('/listings/:id', (req, res, next) => { cacheMiddleware(req, res, next,'listings') }, (req, res) => {
   axios.get(`${LISTINGS}/${req.params.id}`)
     .then((result) => {
-      redisClient.setex(req.url, 3600, JSON.stringify(result.data));
+      redisClient.hmset('listings', req.params.id, JSON.stringify(result.data));
       res.status(200).send(result.data);
     })
 })
 
-router.get('/room', cacheMiddleware, (req, res) => {
+router.get('/room', (req, res, next) => { cacheMiddleware(req, res, next,'room') }, (req, res) => {
   axios.get(`${ROOM}/?id=${req.query.id}`)
     .then((result) => {
-      redisClient.setex(req.url, 3600, JSON.stringify(result.data));
+      redisClient.hmset('room', req.query.id, JSON.stringify(result.data));
       res.status(200).send(result.data);
     })
 })
 
-router.get('/booking', cacheMiddleware, (req, res) => {
+router.get('/booking', (req, res, next) => { cacheMiddleware(req, res, next,'booking') }, (req, res) => {
   axios.get(`${BOOKING}/?id=${req.query.id}`)
     .then((result) => {
-      redisClient.setex(req.url, 3600, JSON.stringify(result.data));
+      redisClient.hmset('booking', req.query.id, JSON.stringify(result.data));
       res.status(200).send(result.data);
     }) 
 })

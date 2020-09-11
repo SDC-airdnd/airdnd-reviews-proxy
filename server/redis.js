@@ -1,12 +1,12 @@
 const redis = require('redis');
 
-const REDIS_PORT = process.env.port || 6379;
+const REDIS_PORT = process.env.REDISPORT || 6379;
 
 const redisClient = redis.createClient(REDIS_PORT);
 
-const cacheMiddleware = (req, res, next) => {
-  const key = req.url;
-  redisClient.get(key, (err, data) => {
+const cacheMiddleware = (req, res, next, hash) => {
+  const id = req.query.id || req.params.id;
+  redisClient.hget(hash, id, (err, data) => {
     if (err) throw err;
     if (data !== null) {
       const jsoned = JSON.parse(data);
@@ -16,6 +16,10 @@ const cacheMiddleware = (req, res, next) => {
     }
   })
 }
+
+redisClient.on('connect', () => {
+  console.log('connected to redis');
+})
 
 
 module.exports = { redisClient, cacheMiddleware };
